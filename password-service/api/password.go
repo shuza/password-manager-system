@@ -12,7 +12,7 @@ import (
 func addPassword(c *gin.Context) {
 	var password model.Password
 	if err := c.BindJSON(&password); err != nil {
-		error_tracer.Client.ErrorLog("addPassword", "requestBody", err.Error())
+		error_tracer.Client.InfoLog("addPassword", "requestBody", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Invalid request body",
 			"data":    err.Error(),
@@ -22,6 +22,7 @@ func addPassword(c *gin.Context) {
 	}
 
 	if !password.IsValid() {
+		error_tracer.Client.InfoLog("addPassword", "requestBody", "Invalid request body")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Required fields can't be empty",
 		})

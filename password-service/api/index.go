@@ -7,6 +7,6 @@ import (
 
 func Index(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "User service is up and running...",
+		"message": "Password service is up and running...",
 	})
 }

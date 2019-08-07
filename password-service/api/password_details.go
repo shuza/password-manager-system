@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"password-service/db"
@@ -14,6 +15,8 @@ func passwordDetails(c *gin.Context) {
 	passwordId, _ := strconv.ParseInt(c.Param("password_id"), 10, 64)
 	password, err := db.Client.GetById(int(passwordId), int(userId))
 	if err != nil {
+		error_tracer.Client.InfoLog("passwordDetails", "notFound",
+			fmt.Sprintf("userId %d passwordId %d not found Error : %v", userId, passwordId, err))
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "Invalid id",
 			"data":    err.Error(),
@@ -29,19 +32,13 @@ func passwordDetails(c *gin.Context) {
 }
 
 func deletePassword(c *gin.Context) {
-	passwordId, err := strconv.ParseInt(c.Param("password_id"), 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Can't parse password id",
-			"data":    err.Error(),
-		})
-
-		return
-	}
+	passwordId, _ := strconv.ParseInt(c.Param("password_id"), 10, 64)
 	userId, _ := strconv.ParseInt(c.GetHeader("user_id"), 10, 64)
 
 	password, err := db.Client.GetById(int(passwordId), int(userId))
 	if err != nil {
+		error_tracer.Client.InfoLog("deletePassword", "notFound",
+			fmt.Sprintf("userId %d passwordId %d not found Error : %v", userId, passwordId, err))
 		c.JSON(http.StatusNotFound, gin.H{
 			"status": "Password not found",
 			"data":   err.Error(),
@@ -50,7 +47,7 @@ func deletePassword(c *gin.Context) {
 		return
 	}
 
-	if err := db.Client.Delete(password); err != nil {
+	if err := db.Client.Delete(&password); err != nil {
 		error_tracer.Client.ErrorLog("deletePassword", "database", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Database can't delete password",
@@ -82,7 +79,8 @@ func updatePassword(c *gin.Context) {
 
 	passwordOld, err := db.Client.GetById(int(passwordId), int(userId))
 	if err != nil {
-		error_tracer.Client.ErrorLog("updatePassword", "database", err.Error())
+		error_tracer.Client.InfoLog("updatePassword", "notFound",
+			fmt.Sprintf("userId %d passwordId %d not found Error : %v", userId, passwordId, err))
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "Password not found",
 			"data":    err.Error(),

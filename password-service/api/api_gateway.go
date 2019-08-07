@@ -10,6 +10,7 @@ func NewGinEngine() *gin.Engine {
 
 	routes := r.Group("/api/v1")
 	routes.POST("/password", addPassword)
+	routes.DELETE("/password/:password_id", deletePassword)
 
 	return r
 }

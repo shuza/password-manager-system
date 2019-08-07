@@ -94,7 +94,7 @@ func updatePassword(c *gin.Context) {
 	passwordOld.Email = password.Email
 	passwordOld.Password = password.Password
 
-	if err := db.Client.Save(passwordOld); err != nil {
+	if err := db.Client.Save(&passwordOld); err != nil {
 		error_tracer.Client.ErrorLog("updatePassword", "database", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "can't update in database",

@@ -39,9 +39,9 @@ func (c *PostgresClient) GetByUserId(userId uint) ([]model.Password, error) {
 	return result, nil
 }
 
-func (c *PostgresClient) GetById(id uint) (model.Password, error) {
+func (c *PostgresClient) GetById(id int, userId int) (model.Password, error) {
 	var password model.Password
-	err := c.conn.Where("id = ?", id).First(&password).Error
+	err := c.conn.Where("id = ? AND user_id = ?", id, userId).First(&password).Error
 	return password, err
 }
 

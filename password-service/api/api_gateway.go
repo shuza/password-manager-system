@@ -10,6 +10,10 @@ func NewGinEngine() *gin.Engine {
 
 	routes := r.Group("/api/v1")
 	routes.POST("/password", addPassword)
+	routes.GET("/password", passwordList)
+
+	routes.GET("/password/:password_id", passwordDetails)
+	routes.PUT("/password/:password_id", updatePassword)
 	routes.DELETE("/password/:password_id", deletePassword)
 
 	return r

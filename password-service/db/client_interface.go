@@ -7,7 +7,7 @@ type IRepository interface {
 	Save(model interface{}) error
 	Delete(model interface{}) error
 	GetByUserId(userId uint) ([]model.Password, error)
-	GetById(id uint) (model.Password, error)
+	GetById(id int, userId int) (model.Password, error)
 	GetByUsernameAndPassword(username string, password string) (model.Password, error)
 	Close()
 }

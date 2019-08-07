@@ -4,9 +4,13 @@ import "github.com/jinzhu/gorm"
 
 type Password struct {
 	gorm.Model
-	UserId      uint   `json:"user_id" gorm:"column:user_id;not null"`
-	AccountName string `json:"account_name" gorm:"column:account_name;not null"`
-	Email       string `json:"email" gorm:"column:email"`
-	Username    string `json:"username" gorm:"column:username"`
-	Password    string `json:"password" gorm:"column:password;not null"`
+	UserId      int    `json:"user_id" gorm:"not null"`
+	AccountName string `json:"account_name" gorm:"not null"`
+	Email       string `json:"email"`
+	Username    string `json:"username"`
+	Password    string `json:"password" gorm:"not null"`
+}
+
+func (p *Password) IsValid() bool {
+	return p.Password != "" && (p.Email != "" || p.Username != "") && p.AccountName != ""
 }

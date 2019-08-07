@@ -8,7 +8,8 @@ func NewGinEngine() *gin.Engine {
 	r := gin.Default()
 	r.GET("/", Index)
 
-	//routes := r.Group("/api/v1")
+	routes := r.Group("/api/v1")
+	routes.POST("/password", addPassword)
 
 	return r
 }

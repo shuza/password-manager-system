@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"password-service/model"
@@ -25,9 +26,9 @@ func (c *PostgresClient) Init() error {
 	return err
 }
 
-func (c *PostgresClient) Save(model interface{}) error {
-	c.conn.AutoMigrate(&model)
-	return c.conn.Save(model).Error
+func (c *PostgresClient) Save(data interface{}) error {
+	c.conn.AutoMigrate(data)
+	return c.conn.Save(data).Error
 }
 
 func (c *PostgresClient) GetByUserId(userId uint) ([]model.Password, error) {

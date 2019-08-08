@@ -6,6 +6,10 @@ run_test:
 	@go tool cover -html=coverage.out -o coverage.html
 	@echo "test report stored in coverage.html"
 
+.PHONY: run
+run:
+	@go run main.go
+
 .PHONY: build
 build:
 	@echo "Building binary..."

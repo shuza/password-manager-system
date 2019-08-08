@@ -12,10 +12,15 @@ import (
 	"password-service/db"
 	"password-service/error_tracer"
 	"password-service/model"
+	"password-service/service"
 	"testing"
 )
 
 func TestAddPasswordRequestBody(t *testing.T) {
+	mockAuth := service.AuthMock{}
+	mockAuth.On("GetUserId", "").Return(1, nil)
+	service.AuthService = &mockAuth
+
 	Convey("Request add password api with wrong request body", t, func() {
 		error_tracer.Client = &error_tracer.MockLog{}
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/password", bytes.NewBuffer([]byte("invalid request body")))
@@ -40,9 +45,13 @@ func TestAddPasswordRequestBody(t *testing.T) {
 	})
 }
 
-func TestAddPasswordWithoutUserId(t *testing.T) {
-	Convey("Request add password without user_id in header", t, func() {
-		error_tracer.Client = &error_tracer.MockLog{}
+func TestAddPasswordWithoutToken(t *testing.T) {
+	error_tracer.Client = &error_tracer.MockLog{}
+	mockAuth := service.AuthMock{}
+	mockAuth.On("GetUserId", "").Return(0, nil)
+	service.AuthService = &mockAuth
+
+	Convey("Request add password without token in header", t, func() {
 		requestBody, _ := json.Marshal(model.Password{
 			Password:    "123456",
 			Username:    "aaa",
@@ -61,6 +70,11 @@ func TestAddPasswordWithoutUserId(t *testing.T) {
 
 func TestAddPasswordDatabaseInteraction(t *testing.T) {
 	error_tracer.Client = &error_tracer.MockLog{}
+
+	mockAuth := service.AuthMock{}
+	mockAuth.On("GetUserId", "valid-token").Return(1, nil)
+	service.AuthService = &mockAuth
+
 	data := model.Password{
 		UserId:      1,
 		Password:    "123456",
@@ -76,7 +90,7 @@ func TestAddPasswordDatabaseInteraction(t *testing.T) {
 		db.Client = &mockDb
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/password", bytes.NewBuffer(requestBody))
-		req.Header.Add("user_id", "1")
+		req.Header.Add("Authorization", "valid-token")
 		resp := httptest.NewRecorder()
 		NewGinEngine().ServeHTTP(resp, req)
 
@@ -91,7 +105,7 @@ func TestAddPasswordDatabaseInteraction(t *testing.T) {
 		db.Client = &mockDb
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/password", bytes.NewBuffer(requestBody))
-		req.Header.Add("user_id", "1")
+		req.Header.Add("Authorization", "valid-token")
 		resp := httptest.NewRecorder()
 		NewGinEngine().ServeHTTP(resp, req)
 
@@ -103,8 +117,14 @@ func TestAddPasswordDatabaseInteraction(t *testing.T) {
 
 func TestPasswordList(t *testing.T) {
 	error_tracer.Client = &error_tracer.MockLog{}
+
+	mockAuth := service.AuthMock{}
+	mockAuth.On("GetUserId", "valid-token").Return(1, nil)
+	mockAuth.On("GetUserId", "valid-token-2").Return(2, nil)
+	service.AuthService = &mockAuth
+
 	mockDb := db.MockDb{}
-	mockDb.On("GetByUserId", uint(0)).Return([]model.Password{}, errors.New("invalid user_id"))
+	mockDb.On("GetByUserId", uint(2)).Return([]model.Password{}, errors.New("invalid user_id"))
 
 	passwords := getDummyPasswordList(4, 1)
 	mockDb.On("GetByUserId", uint(1)).Return(passwords, nil)
@@ -112,6 +132,7 @@ func TestPasswordList(t *testing.T) {
 
 	Convey("Request for password list without user_id", t, func() {
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/password", nil)
+		req.Header.Add("Authorization", "valid-token-2")
 		resp := httptest.NewRecorder()
 		NewGinEngine().ServeHTTP(resp, req)
 
@@ -123,7 +144,7 @@ func TestPasswordList(t *testing.T) {
 
 	Convey("Request for password list without user_id", t, func() {
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/password", nil)
-		req.Header.Add("user_id", "1")
+		req.Header.Add("Authorization", "valid-token")
 		resp := httptest.NewRecorder()
 		NewGinEngine().ServeHTTP(resp, req)
 

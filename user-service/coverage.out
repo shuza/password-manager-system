@@ -7,7 +7,6 @@ user-service/service/token.go:61.2,61.17 1 0
 user-service/service/token.go:48.107,50.3 1 1
 user-service/service/token.go:52.16,54.3 1 1
 user-service/service/token.go:57.66,59.3 1 1
-user-service/api/index.go:8.28,12.2 1 1
 user-service/api/token.go:10.34,15.16 4 1
 user-service/api/token.go:25.2,28.4 1 1
 user-service/api/token.go:15.16,23.3 3 1
@@ -28,3 +27,4 @@ user-service/api/user.go:67.16,74.3 2 1
 user-service/api/user.go:80.39,86.3 2 1
 user-service/api/user.go:90.16,98.3 3 0
 user-service/api/api_gateway.go:7.33,17.2 7 1
+user-service/api/index.go:8.28,12.2 1 1

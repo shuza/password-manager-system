@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"password-service/db"
@@ -30,11 +31,11 @@ func addPassword(c *gin.Context) {
 	}
 
 	userId, err := strconv.ParseInt(c.GetHeader("user_id"), 10, 64)
-	if err != nil {
-		error_tracer.Client.ErrorLog("addPassword", "userId", err.Error())
+	if err != nil || userId == 0 {
+		error_tracer.Client.ErrorLog("addPassword", "userId", fmt.Sprintf("can't get user_id = %d Error : %v", userId, err))
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Can't map user",
-			"data":    err.Error(),
+			"data":    fmt.Sprintf("can't get user_id = %d Error : %v", userId, err),
 		})
 
 		return

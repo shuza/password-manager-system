@@ -6,7 +6,7 @@ import (
 
 func NewGinEngine() *gin.Engine {
 	r := gin.Default()
-	r.GET("/", Index)
+	r.GET("/", index)
 
 	routes := r.Group("/api/v1")
 	routes.Use(authorization())

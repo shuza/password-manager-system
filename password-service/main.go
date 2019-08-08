@@ -5,11 +5,14 @@ import (
 	"password-service/api"
 	"password-service/db"
 	"password-service/error_tracer"
+	"password-service/service"
 )
 
 func main() {
 	initErrorTracer()
 	initDB()
+	initServices()
+
 	defer db.Client.Close()
 
 	r := api.NewGinEngine()
@@ -28,4 +31,8 @@ func initDB() {
 
 func initErrorTracer() {
 	error_tracer.Client = &error_tracer.ConsoleLog{}
+}
+
+func initServices() {
+	service.AuthService = &service.UserService{}
 }

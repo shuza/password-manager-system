@@ -58,9 +58,11 @@
 				
 				<option value="file1">password-service/api/index.go (100.0%)</option>
 				
-				<option value="file2">password-service/api/password.go (100.0%)</option>
+				<option value="file2">password-service/api/middleware.go (66.7%)</option>
 				
-				<option value="file3">password-service/api/password_details.go (100.0%)</option>
+				<option value="file3">password-service/api/password.go (100.0%)</option>
+				
+				<option value="file4">password-service/api/password_details.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -85,6 +87,7 @@ func NewGinEngine() *gin.Engine <span class="cov8" title="1">{
         r.GET("/", Index)
 
         routes := r.Group("/api/v1")
+        routes.Use(authorization())
         routes.POST("/password", addPassword)
         routes.GET("/password", passwordList)
 
@@ -113,6 +116,38 @@ func Index(c *gin.Context) <span class="cov8" title="1">{
 		<pre class="file" id="file2" style="display: none">package api
 
 import (
+        "fmt"
+        "github.com/gin-gonic/gin"
+        "net/http"
+        "password-service/error_tracer"
+        "password-service/service"
+)
+
+func authorization() gin.HandlerFunc <span class="cov8" title="1">{
+        return func(c *gin.Context) </span><span class="cov8" title="1">{
+                token := c.GetHeader("Authorization")
+
+                userId, err := service.AuthService.GetUserId(token)
+                if err != nil </span><span class="cov0" title="0">{
+                        error_tracer.Client.InfoLog("middleware", "token", fmt.Sprintf("%s is invalid token", token))
+                        c.JSON(http.StatusUnauthorized, gin.H{
+                                "message": "Unauthorized user",
+                        })
+
+                        c.Abort()
+                }</span>
+
+                <span class="cov8" title="1">c.Request.Header.Add("user_id", fmt.Sprintf("%d", userId))
+
+                c.Next()</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package api
+
+import (
+        "fmt"
         "github.com/gin-gonic/gin"
         "net/http"
         "password-service/db"
@@ -142,11 +177,11 @@ func addPassword(c *gin.Context) <span class="cov8" title="1">{
         }</span>
 
         <span class="cov8" title="1">userId, err := strconv.ParseInt(c.GetHeader("user_id"), 10, 64)
-        if err != nil </span><span class="cov8" title="1">{
-                error_tracer.Client.ErrorLog("addPassword", "userId", err.Error())
+        if err != nil || userId == 0 </span><span class="cov8" title="1">{
+                error_tracer.Client.ErrorLog("addPassword", "userId", fmt.Sprintf("can't get user_id = %d Error : %v", userId, err))
                 c.JSON(http.StatusInternalServerError, gin.H{
                         "message": "Can't map user",
-                        "data":    err.Error(),
+                        "data":    fmt.Sprintf("can't get user_id = %d Error : %v", userId, err),
                 })
 
                 return
@@ -188,7 +223,7 @@ func passwordList(c *gin.Context) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file3" style="display: none">package api
+		<pre class="file" id="file4" style="display: none">package api
 
 import (
         "fmt"

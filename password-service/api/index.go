@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func Index(c *gin.Context) {
+func index(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Password service is up and running...",
 	})

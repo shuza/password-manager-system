@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    data.db: postgresql
+  name: postgresql
+spec:
+  selector:
+    matchLabels:
+      data.db: postgresql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        data.db: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "123456"
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "xendit-db"
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    data.db: postgresql
+  name: postgresql
+spec:
+  selector:
+    data.db: postgresql
+  ports:
+    - port: 5432
+      targetPort: 5432

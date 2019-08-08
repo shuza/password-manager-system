@@ -20,6 +20,11 @@ docker_build: build
 	@echo "Building docker image..."
 	docker build -t shuzasa/password-service:v1.0 .
 
+.PHONY: docker_push
+docker_push: docker_build
+	@echo "Pushing docker image..."
+	docker push shuzasa/password-service:v1.0
+
 .PHONY: docker_run
 docker_run: docker_build
 	docker run -p 8081:8081 --env-file .env shuzasa/password-service:v1.0

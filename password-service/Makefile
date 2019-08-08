@@ -13,7 +13,7 @@ run:
 .PHONY: build
 build:
 	@echo "Building binary..."
-	go build -o app
+	GOOS=linux go build -o app
 
 .PHONY: docker_build
 docker_build: build
@@ -28,3 +28,12 @@ docker_push: docker_build
 .PHONY: docker_run
 docker_run: docker_build
 	docker run -p 8081:8081 --env-file .env shuzasa/password-service:v1.0
+
+.PHONY: deploy
+deploy:
+	kubectl apply -f ./deployment/password.yaml
+
+.PHONY: delete
+delete:
+	kubectl delete svc password-service
+	kubectl delete deployment password-deploy

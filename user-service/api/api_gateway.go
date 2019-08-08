@@ -6,9 +6,9 @@ import (
 
 func NewGinEngine() *gin.Engine {
 	r := gin.Default()
-	r.GET("/", index)
+	r.GET("/user", index)
 
-	routes := r.Group("/api/v1")
+	routes := r.Group("/user/api/v1")
 	routes.POST("/user", createUser)
 	routes.POST("/auth/login", login)
 	routes.GET("/auth/token", tokenVerify)

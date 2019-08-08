@@ -6,9 +6,9 @@ import (
 
 func NewGinEngine() *gin.Engine {
 	r := gin.Default()
-	r.GET("/", index)
+	r.GET("/password", index)
 
-	routes := r.Group("/api/v1")
+	routes := r.Group("/password/api/v1")
 	routes.Use(authorization())
 	routes.POST("/password", addPassword)
 	routes.GET("/password", passwordList)

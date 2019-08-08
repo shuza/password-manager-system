@@ -1,17 +1,17 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: api-ingress
-  namespace: dev
 spec:
   rules:
-  - host: localhost
-    http:
-      paths: /api/v1/auth
-      - backend:
-          serviceName: user-service
-          servicePort: 8080
-	  paths: /api/v1/password
-	  - backend:
-		  serviceName: password-service
-		  servicePort: 8081
+    - host: localhost
+      http:
+        paths:
+          - path: /user
+            backend:
+              serviceName: user-service
+              servicePort: 8080
+          - path: /password
+            backend:
+              serviceName: password-service
+              servicePort: 8081

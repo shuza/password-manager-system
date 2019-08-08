@@ -40,7 +40,4 @@ spec:
   selector:
     app: user-app
   ports:
-    - name: http
-      port: 8080
-      nodePort: 30080
-  type: NodePort
+    - port: 8080

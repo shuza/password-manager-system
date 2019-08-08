@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"password-service/error_tracer"
@@ -24,9 +25,11 @@ func (s *UserService) GetUserId(token string) (int, error) {
 		error_tracer.Client.ErrorLog("userService", "httpCall", fmt.Sprintf("%s http call Error : %v", url, err))
 		return 0, err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		error_tracer.Client.InfoLog("userService", "httpCall", "invalid token response")
+		data, _ := ioutil.ReadAll(resp.Body)
+		error_tracer.Client.InfoLog("userService", "httpCall", fmt.Sprintf("invalid token response %s", string(data)))
 		return 0, errors.New("Invalid token")
 	}
 

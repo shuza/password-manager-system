@@ -1,3 +1,6 @@
+# Password Manager System
+User can register and manage their password related credentials.
+
 # Architecture
 ![Solid](./images/Architecture.jpeg)
 

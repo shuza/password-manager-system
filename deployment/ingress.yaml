@@ -4,7 +4,7 @@ metadata:
   name: api-ingress
 spec:
   rules:
-    - host: localhost
+    - host: myproject.info
       http:
         paths:
           - path: /user
@@ -15,3 +15,7 @@ spec:
             backend:
               serviceName: password-service
               servicePort: 8081
+          - path: /elasticsearch
+            backend:
+              serviceName: elasticsearch
+              servicePort: 9200

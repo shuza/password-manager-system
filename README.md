@@ -16,3 +16,6 @@ After deploying services you need to deploy nginx ingres controller to redirect 
 # API
 Import this link in postman and update `host` environment varibale with our cluster ip.
 https://www.getpostman.com/collections/df770a89d79214e6909a
+
+# TODO
+* Unified Logging Layer

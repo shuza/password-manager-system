@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: user-deploy
+    labels:
+        app: user-app
+spec:
+    selector:
+        matchLabels:
+            app: user-app
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: user-app
+        spec:
+            containers:
+                - name: user-app
+                  image: shuzasa/user-service:v1.0
+                  ports:
+                      - name: user-service
+                        containerPort: 8080
+                  env:
+                      - name: DB_USER
+                        value: "admin"
+                      - name: DB_PASSWORD
+                        value: "123456"
+                      - name: DB_HOST
+                        value: "postgresql"
+                      - name: DB_NAME
+                        value: "xendit-db"

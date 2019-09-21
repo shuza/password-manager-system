@@ -29,3 +29,38 @@ spec:
                         value: "postgresql"
                       - name: DB_NAME
                         value: "xendit-db"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: password-deploy
+  labels:
+    app: password-app
+spec:
+  selector:
+    matchLabels:
+      app: password-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: password-app
+    spec:
+      containers:
+        - name: password-app
+          image: shuzasa/password-service:v1.0
+          ports:
+            - name: password-port
+              containerPort: 8081
+          env:
+            - name: DB_USER
+              value: "admin"
+            - name: DB_PASSWORD
+              value: "123456"
+            - name: DB_HOST
+              value: "postgresql"
+            - name: DB_NAME
+              value: "xendit-db"
+            - name: TOKEN_SERVICE_HOST
+              value: "http://user-service:8080/user"

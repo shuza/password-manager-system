@@ -22,9 +22,7 @@ func (s *service) CreateUser(ctx context.Context, user model.User) error {
 	if user.Email == "" || user.Password == "" || user.FullName == "" || user.BusinessName == "" {
 		return fmt.Errorf("invalid user request :%w", model.ErrInvalid)
 	}
-	if p, err := util.HashPassword(user.Password); err != nil {
-		return err
-	} else {
+	if p, err := util.HashPassword(user.Password); err == nil {
 		user.Password = p
 	}
 	return s.repo.InsertUser(ctx, user)

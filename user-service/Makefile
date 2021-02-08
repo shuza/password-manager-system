@@ -1,14 +1,20 @@
 include .env
 
-.PHONY: run_test
-run_test:
-	@go test -cover -coverprofile=coverage.out ./...
+ALL_PACKAGES=$(shell go list ./... | grep -v "vendor")
+COVERAGE_MIN=80
+
+.PHONY: test
+test:
+	@echo "> running test and creating coverage report"
+	go test -race -p=1 -cover -coverprofile=coverage.out $(ALL_PACKAGES)
 	@go tool cover -html=coverage.out -o coverage.html
-	@echo "test report stored in coverage.html"
+	@go tool cover -func=coverage.out | grep -i total:
+	@go tool cover -func=coverage.out | gawk '/total:.*statements/ {if (strtonum($$3) < $(COVERAGE_MIN)) {print "ERR: coverage is lower than $(COVERAGE_MIN)"; exit 1}}'
+	@rm *.out
 
 .PHONY: run
 run:
-	@go run main.go
+	@go run main.go server
 
 .PHONY: build
 build:

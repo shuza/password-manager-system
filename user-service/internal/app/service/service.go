@@ -5,6 +5,8 @@ import (
 	"user-service/internal/app/model"
 )
 
+//go:generate mockgen -source service.go -destination ./mocks/mock_service.go -package mocks
+
 type UserService interface {
 	CreateUser(ctx context.Context, user model.User) error
 	GetUserByEmailAndPassword(ctx context.Context, email, password string) (model.User, error)

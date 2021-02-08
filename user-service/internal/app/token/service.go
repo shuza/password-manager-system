@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 	"user-service/internal/app/model"
@@ -23,10 +24,10 @@ func (s *service) Encode(user model.User) (string, error) {
 
 	//	Create claim
 	claim := model.JwtCustomClaims{
-		user,
-		jwt.StandardClaims{
+		User: user,
+		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expireToken,
-			Issuer:    "xendit.user",
+			Issuer:    "auth.user",
 		},
 	}
 
@@ -52,5 +53,5 @@ func (s *service) Decode(tokenStr string) (*model.JwtCustomClaims, error) {
 		return claim, nil
 	}
 
-	return nil, err
+	return nil, fmt.Errorf("token not found :%w", model.ErrNotFound)
 }

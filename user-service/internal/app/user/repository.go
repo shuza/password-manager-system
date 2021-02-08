@@ -5,10 +5,12 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 	"user-service/internal/app/model"
 )
 
 const (
+	errUniqueViolation  = pq.ErrorCode("23505")
 	insertUserQuery     = `INSERT INTO users (email, full_name, password, business_name) VALUES ($1, $2, $3, $4)`
 	getUserByEmailQuery = `SELECT id, email, full_name, password, business_name FROM users WHERE email = $1`
 )
@@ -25,6 +27,9 @@ func NewRepository(db *sqlx.DB) *repository {
 
 func (r *repository) InsertUser(ctx context.Context, user model.User) error {
 	if _, err := r.db.ExecContext(ctx, insertUserQuery, user.Email, user.FullName, user.Password, user.BusinessName); err != nil {
+		if pqErr, ok := err.(*pq.Error); ok && pqErr.Code == errUniqueViolation {
+			return fmt.Errorf("%v :%w", err, model.ErrInvalid)
+		}
 		return err
 	}
 	return nil

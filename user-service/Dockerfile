@@ -4,6 +4,6 @@ RUN mkdir app
 WORKDIR /app
 COPY ./app .
 
-ENTRYPOINT ["./app"]
+ENTRYPOINT ["./app", "server"]
 
 EXPOSE 8080

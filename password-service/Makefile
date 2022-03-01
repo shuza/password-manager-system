@@ -30,7 +30,7 @@ docker_run: docker_build
 	docker run -p 8081:8081 --env-file .env shuzasa/password-service:v1.0
 
 .PHONY: deploy
-deploy:
+deploy: docker_build
 	kubectl apply -f ./deployment/password.yaml
 
 .PHONY: delete

@@ -21,11 +21,11 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_PASSWORD
-              value: "123456"
+              value: "foobar"
             - name: POSTGRES_USER
-              value: "admin"
+              value: "foobar"
             - name: POSTGRES_DB
-              value: "xendit-db"
+              value: "learn-db"
 
 
 ---

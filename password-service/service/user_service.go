@@ -14,7 +14,7 @@ import (
 type UserService struct{}
 
 func (s *UserService) GetUserId(token string) (int, error) {
-	url := fmt.Sprintf("%s/api/v1/auth/token", os.Getenv("TOKEN_SERVICE_HOST"))
+	url := fmt.Sprintf("%s/api/v1/authorization/validate", os.Getenv("TOKEN_SERVICE_HOST"))
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 	query := req.URL.Query()
 	query.Add("token", token)

@@ -36,7 +36,7 @@ docker_run: docker_build
 	docker run -p 8080:8080 --env-file .env shuzasa/user-service:v1.0
 
 .PHONY: deploy
-deploy:
+deploy: docker_build
 	kubectl apply -f ./deployment/user.yaml
 
 .PHONY: delete

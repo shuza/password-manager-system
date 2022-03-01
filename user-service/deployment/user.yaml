@@ -21,14 +21,16 @@ spec:
             - name: user-service
               containerPort: 8080
           env:
+            - name: APP_PORT
+              value: ":8080"
             - name: DB_USER
-              value: "admin"
+              value: "foobar"
             - name: DB_PASSWORD
-              value: "123456"
+              value: "foobar"
             - name: DB_HOST
               value: "postgresql"
             - name: DB_NAME
-              value: "xendit-db"
+              value: "learn-db"
 
 
 ---

@@ -41,5 +41,4 @@ deploy: docker_build
 
 .PHONY: delete
 delete:
-	kubectl delete svc user-service
-	kubectl delete deployment user-deploy
+	kubectl delete -f ./deployment/user.yaml

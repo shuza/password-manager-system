@@ -23,6 +23,7 @@ func (c *PostgresClient) Init() error {
 	log.Infoln("connectionStr :  " + connectionStr)
 	db, err := gorm.Open("postgres", connectionStr)
 	c.conn = db
+	db.AutoMigrate(model.Password{})
 	return err
 }
 

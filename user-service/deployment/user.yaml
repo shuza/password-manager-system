@@ -11,6 +11,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
         app: user-app
     spec:
@@ -29,6 +31,8 @@ spec:
               value: "foobar"
             - name: DB_HOST
               value: "postgresql"
+            - name: DB_PORT
+              value: "5432"
             - name: DB_NAME
               value: "learn-db"
 

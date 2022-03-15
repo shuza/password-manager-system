@@ -1,9 +1,10 @@
 package server
 
 import (
-	"github.com/unrolled/render"
 	"net/http"
 	"user-service/internal/app/model"
+
+	"github.com/unrolled/render"
 )
 
 const (

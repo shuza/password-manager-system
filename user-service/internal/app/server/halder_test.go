@@ -3,10 +3,6 @@ package server
 import (
 	"errors"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/golang/mock/gomock"
-	"github.com/gorilla/mux"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -14,6 +10,11 @@ import (
 	"time"
 	"user-service/internal/app/model"
 	"user-service/internal/app/service/mocks"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/golang/mock/gomock"
+	"github.com/gorilla/mux"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSignUp(t *testing.T) {

@@ -2,10 +2,11 @@ package server
 
 import (
 	"context"
-	"github.com/gorilla/mux"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"user-service/internal/app/service"
+
+	"github.com/gorilla/mux"
+	"github.com/rs/zerolog/log"
 )
 
 type server struct {

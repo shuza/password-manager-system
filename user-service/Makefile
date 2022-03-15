@@ -21,6 +21,11 @@ build:
 	@echo "Building binary..."
 	GOOS=linux go build -o app
 
+.PHONY: lint
+lint:
+	@echo "> running linter"
+	@golangci-lint -c ./.golangci.yml --timeout=3m run
+
 .PHONY: docker_build
 docker_build: build
 	@echo "Building docker image..."

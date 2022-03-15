@@ -4,9 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"user-service/internal/app/model"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
-	"user-service/internal/app/model"
 )
 
 const (

@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/golang/mock/gomock"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"user-service/internal/app/model"
 	"user-service/internal/app/service/mocks"
 	"user-service/internal/app/util"
+
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestService_CreateUser(t *testing.T) {

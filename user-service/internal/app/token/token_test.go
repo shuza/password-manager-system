@@ -1,9 +1,10 @@
 package token
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"user-service/internal/app/model"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestService_Decode(t *testing.T) {

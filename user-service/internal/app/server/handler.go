@@ -3,9 +3,10 @@ package server
 import (
 	"encoding/json"
 	"errors"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"user-service/internal/app/model"
+
+	"github.com/rs/zerolog/log"
 )
 
 func (s *server) signUp(w http.ResponseWriter, r *http.Request) {

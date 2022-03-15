@@ -1,0 +1,12 @@
+linters:
+  disable-all: true
+  enable:
+    - goimports
+    - govet
+    - varcheck
+    - deadcode
+    - ineffassign
+    # - staticcheck //removing this for google.golang.org/protobuf/proto.Marshal not working as expected
+    - unused
+    - gosimple
+    - structcheck

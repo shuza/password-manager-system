@@ -2,9 +2,10 @@ package token
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
 	"time"
 	"user-service/internal/app/model"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 var (

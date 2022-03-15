@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"github.com/rs/zerolog/log"
-	"github.com/spf13/cobra"
 	"os"
 	"os/signal"
 	"syscall"
@@ -10,6 +8,9 @@ import (
 	"user-service/internal/app/token"
 	"user-service/internal/app/user"
 	"user-service/internal/pkg/postgres"
+
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/cobra"
 )
 
 var serverCmd = &cobra.Command{

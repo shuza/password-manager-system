@@ -2,11 +2,12 @@ package postgres
 
 import (
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"log"
-	"time"
 )
 
 const (

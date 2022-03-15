@@ -4,12 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"testing"
+	"user-service/internal/app/model"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
-	"testing"
-	"user-service/internal/app/model"
 )
 
 func TestRepository_InsertUser(t *testing.T) {

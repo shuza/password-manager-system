@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -21,4 +22,10 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	log.Info().Msgf("APP_PORT = %s", os.Getenv("APP_PORT"))
+	log.Info().Msgf("DB_HOST = %s", os.Getenv("DB_HOST"))
+	log.Info().Msgf("DB_PORT = %s", os.Getenv("DB_PORT"))
+	log.Info().Msgf("DB_USER = %s", os.Getenv("DB_USER"))
+	log.Info().Msgf("DB_PASSWORD = %s", os.Getenv("DB_PASSWORD"))
+	log.Info().Msgf("DB_NAME = %s", os.Getenv("DB_NAME"))
 }

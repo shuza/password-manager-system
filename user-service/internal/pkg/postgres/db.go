@@ -5,6 +5,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"log"
 	"time"
 )
 
@@ -47,12 +48,14 @@ func (c *Config) migrationPath() string {
 }
 
 func (c *Config) Url() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
+	connectionUrl := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		c.User,
 		c.Password,
 		c.Host,
 		c.Port,
 		c.Name)
+	log.Println("DB connection URL = ", connectionUrl)
+	return connectionUrl
 }
 
 func (c *Config) maxIdleConn() int {

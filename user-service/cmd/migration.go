@@ -14,6 +14,11 @@ var migrateCmd = &cobra.Command{
 	Long:  `It will run migrations according to db/migrations scripts on Reporting database`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return postgres2.RunDatabaseMigration(&postgres2.Config{
+			/*Host:     "postgresql",
+			Port:     "5432",
+			User:     "foobar",
+			Password: "foobar",
+			Name:     "learn-db",*/
 			Host:     os.Getenv("DB_HOST"),
 			Port:     os.Getenv("DB_PORT"),
 			User:     os.Getenv("DB_USER"),

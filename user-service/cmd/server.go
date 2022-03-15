@@ -18,6 +18,11 @@ var serverCmd = &cobra.Command{
 	Long:  `Start server`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		db, err := postgres.New(&postgres.Config{
+			/*Host:     "postgresql",
+			Port:     "5432",
+			User:     "foobar",
+			Password: "foobar",
+			Name:     "learn-db",*/
 			Host:     os.Getenv("DB_HOST"),
 			Port:     os.Getenv("DB_PORT"),
 			User:     os.Getenv("DB_USER"),

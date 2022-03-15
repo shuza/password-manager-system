@@ -4,7 +4,8 @@ RUN mkdir app
 WORKDIR /app
 COPY ./app .
 ADD migrations ./migrations
+ADD Makefile .
 
-ENTRYPOINT ["./app", "migrate", "&&", "./app", "server"]
+CMD ["./app", "server"]
 
 EXPOSE 8080
